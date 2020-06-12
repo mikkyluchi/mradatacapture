@@ -1,0 +1,167 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button [disabled]="!channelForm.valid" (click)="onSave()">
+        Save
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end" *ngIf="!spouse">
+      <ion-button (click)="addSpouse()">
+        Add Spouse
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end" *ngIf="spouse">
+      <ion-button (click)="addSpouse()">
+        View Spouse
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div *ngIf="voter" style="margin:15px 0px">
+  <div class="user-photo" padding-top>
+    <ion-avatar (click)="openDialog()">
+      <!-- <img [src]="voter.photo || '/assets/images/noavatar.png'"> -->
+      <img [src]="base64Image|| '/assets/images/noavatar.png'" />
+      <input accept="image/*" #fileInput class="form-control-file" style="display:none" id="foto" name="image" type="file" (change)="fileChangeEvent($event)">
+    </ion-avatar>
+  </div>
+</div>
+<ion-content>
+  <form [formGroup]="channelForm">
+    <ion-list>
+
+      <ion-item>
+        <ion-icon name="person" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Surname<span style="color:red">*</span>
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="voter.surname" formControlName="surname"></ion-input>
+        <ion-input type="text" [(ngModel)]="voter.id" formControlName="id" hidden></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="person" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          First Name<span style="color:red">*</span>
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="voter.firstname" formControlName="firstname"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="person" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Middle Name
+        </ion-label>
+        <ion-input type="text" [(ngModel)]="voter.middlename" formControlName="middlename"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="person" slot="start"></ion-icon>
+        <ion-label>
+          Gender<span style="color:red">*</span>
+        </ion-label>
+        <ion-select [(ngModel)]="voter.gender" formControlName="gender" ok-text="Okay" cancel-text="Dismiss">
+          <ion-select-option *ngFor="let gender of genders" [value]="gender.id">
+            {{gender.name}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="call" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Primary Phone<span style="color:red">*</span>
+        </ion-label>
+        <ion-input [(ngModel)]="voter.primarytelephone" formControlName="primarytelephone"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="call" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Secondary Phone
+        </ion-label>
+        <ion-input [(ngModel)]="voter.secondarytelephone" formControlName="secondarytelephone"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="call" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Alternate Phone
+        </ion-label>
+        <ion-input [(ngModel)]="voter.alternatephoneone" formControlName="alternatephoneone"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="call" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Altername Phone
+        </ion-label>
+        <ion-input [(ngModel)]="voter.alternatephonetwo" formControlName="alternatephonetwo"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="mail" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Email Address<span style="color:red">*</span>
+        </ion-label>
+        <ion-input [(ngModel)]="voter.emailaddressone" formControlName="emailaddressone"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="mail" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Alternate Email Address
+        </ion-label>
+        <ion-input [(ngModel)]="voter.emailaddresstwo" formControlName="emailaddresstwo"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="map" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          House No<span style="color:red">*</span>
+        </ion-label>
+        <ion-input [(ngModel)]="voter.houseno" formControlName="houseno"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="map" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Block No
+        </ion-label>
+        <ion-input [(ngModel)]="voter.blockno" formControlName="blockno"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="map" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Plot No
+        </ion-label>
+        <ion-input [(ngModel)]="voter.plotno" formControlName="plotno"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="map" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Street Name<span style="color:red">*</span>
+        </ion-label>
+        <ion-input [(ngModel)]="voter.streetname" formControlName="streetname"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="map" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Off Primary Street
+        </ion-label>
+        <ion-input [(ngModel)]="voter.offprimarystreet" formControlName="offprimarystreet"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="zones">
+        <ion-icon name="locate" slot="start"></ion-icon>
+        <ion-label>
+          Zone<span style="color:red">*</span>
+        </ion-label>
+        <ion-select [(ngModel)]="voter.zone" formControlName="zone" ok-text="Okay" cancel-text="Dismiss">
+          <ion-select-option *ngFor="let zone of zones" [value]="zone.id">
+            {{zone.zone_name}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+     
+    </ion-list>
+    <div padding>
+      <ion-button  expand="block" (click)="onSave()">Update Profile</ion-button>
+      <ion-button  color="danger"  expand="block" (click)="onDelete()">Delete Profile</ion-button>
+    </div>
+  </form>
+</ion-content>

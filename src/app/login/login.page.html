@@ -1,0 +1,9 @@
+<ion-content class="background">
+<img src="assets/images/logo.png" alt="">
+<br>
+<br>
+<br>
+<input type="text" name="username" [(ngModel)]="login.username" placeholder="Username">
+<input type="password" name="password" [(ngModel)]="login.password" placeholder="Password">
+<button color="roze" [disabled]="login.username==''||login.password==''||loading" (click)="doLogin()" class="login" ion-buton>LOGIN</button>
+</ion-content>

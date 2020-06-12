@@ -1,5 +1,7 @@
 {
   "name": "mradatacapture",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
